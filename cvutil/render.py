@@ -60,14 +60,14 @@ class FaceVideoPyrenderer(object):
         """
         Process render request.
 
-        Parameters:
+        Parameters
         ----------
         vertices : np.ndarray
             Vertices.
         vertex_colors : np.ndarray or None
             Vertex colors.
 
-        Returns:
+        Returns
         -------
         np.ndarray
             Color render (image).
