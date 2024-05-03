@@ -8,13 +8,12 @@ import os
 import sys
 import logging
 import argparse
-from typing import Tuple, Optional
 from .strings import split_str, pretty_print_dict_to_str
 from .envs import get_env_stats
 
 
-def prepare_logger(logging_dir_path: Optional[str],
-                   logging_file_name: Optional[str]) -> Tuple[logging.Logger, bool]:
+def prepare_logger(logging_dir_path: str | None,
+                   logging_file_name: str | None) -> tuple[logging.Logger, bool]:
     """
     Prepare logger.
 
@@ -50,13 +49,13 @@ def prepare_logger(logging_dir_path: Optional[str],
     return logger, log_file_exist
 
 
-def initialize_logging(logging_dir_path: Optional[str] = None,
-                       logging_file_name: Optional[str] = None,
-                       main_script_path: Optional[str] = None,
-                       script_args: Optional[argparse.Namespace] = None,
-                       packages: Optional[str] = "log_packages",
-                       pip_packages: Optional[str] = "log_pip_packages",
-                       check_ffmpeg: bool = False) -> Tuple[logging.Logger, bool]:
+def initialize_logging(logging_dir_path: str | None = None,
+                       logging_file_name: str | None = None,
+                       main_script_path: str | None = None,
+                       script_args: argparse.Namespace | None = None,
+                       packages: str | None = "log_packages",
+                       pip_packages: str | None = "log_pip_packages",
+                       check_ffmpeg: bool = False) -> tuple[logging.Logger, bool]:
     """
     Initialize logging subsystem.
 

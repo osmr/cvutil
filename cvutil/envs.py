@@ -8,10 +8,9 @@ import os
 import sys
 import subprocess
 import platform
-from typing import List, Dict, Optional
 
 
-def get_platform_info() -> Dict[str, str]:
+def get_platform_info() -> dict[str, str]:
     """
     Get platform (operational system) information.
 
@@ -49,7 +48,7 @@ def get_sys_python_version() -> str:
         return "unknown"
 
 
-def get_git_commit_info(script_path: Optional[str] = None) -> str:
+def get_git_commit_info(script_path: str | None = None) -> str:
     """
     Get the last Git repo commit information.
 
@@ -79,7 +78,7 @@ def get_git_commit_info(script_path: Optional[str] = None) -> str:
     return output_text
 
 
-def get_package_versions(module_names: List[str]) -> Dict[str, str]:
+def get_package_versions(module_names: list[str]) -> dict[str, str]:
     """
     Get packages information by inspecting __version__ attribute.
 
@@ -104,8 +103,8 @@ def get_package_versions(module_names: List[str]) -> Dict[str, str]:
     return module_versions
 
 
-def get_pip_package_descriptions(package_names: List[str],
-                                 python_version: str = "") -> Dict[str, str]:
+def get_pip_package_descriptions(package_names: list[str],
+                                 python_version: str = "") -> dict[str, str]:
     """
     Get packages information by using 'pip show' command.
 
@@ -151,10 +150,10 @@ def get_ffmpeg_version() -> str:
     return output_text
 
 
-def get_env_stats(packages: Optional[List[str]],
-                  pip_packages: Optional[List[str]],
-                  main_script_path: Optional[str] = None,
-                  check_ffmpeg: bool = False) -> Dict[str, str]:
+def get_env_stats(packages: list[str] | None,
+                  pip_packages: list[str] | None,
+                  main_script_path: str | None = None,
+                  check_ffmpeg: bool = False) -> dict[str, str]:
     """
     Get environment statistics.
 

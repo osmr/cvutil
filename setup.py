@@ -18,7 +18,7 @@ setup(
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Science/Research',
-        'License :: Other/Proprietary License',
+        'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Programming Language :: Python :: 3',
         'Topic :: Scientific/Engineering :: Image Processing',
@@ -27,6 +27,6 @@ setup(
     keywords='datasets image audio processing',
     packages=find_packages(exclude=['others', '*.others', 'others.*', '*.others.*']),
     install_requires=['opencv-python', 'pyrender'],
-    python_requires='>=3.7',
+    python_requires='>=3.10',
     include_package_data=True,
 )

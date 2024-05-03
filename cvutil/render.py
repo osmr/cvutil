@@ -7,7 +7,6 @@ __all__ = ['FaceVideoPyrenderer']
 import numpy as np
 import trimesh
 import pyrender
-from typing import Optional
 
 
 class FaceVideoPyrenderer(object):
@@ -56,7 +55,7 @@ class FaceVideoPyrenderer(object):
 
     def __call__(self,
                  vertices: np.ndarray,
-                 vertex_colors: Optional[np.ndarray]) -> np.ndarray:
+                 vertex_colors: np.ndarray | None) -> np.ndarray:
         """
         Process render request.
 

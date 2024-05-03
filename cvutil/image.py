@@ -6,12 +6,11 @@ __all__ = ['resize_image', 'resize_image_with_min_size', 'crop_image', 'center_c
 
 import numpy as np
 import cv2
-from typing import Tuple
 from .math import calc_pad_value
 
 
 def resize_image(image: np.ndarray,
-                 image_size: Tuple[int, int],
+                 image_size: tuple[int, int],
                  interpolation: int = cv2.INTER_LINEAR) -> np.ndarray:
     """
     Resize image.
@@ -41,7 +40,7 @@ def resize_image(image: np.ndarray,
 def resize_image_with_min_size(image: np.ndarray,
                                min_size: int,
                                downscale: bool = False,
-                               interpolation: int = cv2.INTER_LINEAR) -> Tuple[np.ndarray, Tuple[int, int]]:
+                               interpolation: int = cv2.INTER_LINEAR) -> tuple[np.ndarray, tuple[int, int]]:
     """
     Resize image with minimal size.
 
@@ -72,7 +71,7 @@ def resize_image_with_min_size(image: np.ndarray,
 
 
 def crop_image(image: np.ndarray,
-               crop_params: Tuple[int, int, int, int]) -> np.ndarray:
+               crop_params: tuple[int, int, int, int]) -> np.ndarray:
     """
     Crop image patch.
 
@@ -94,7 +93,7 @@ def crop_image(image: np.ndarray,
 
 
 def center_crop_image(image: np.ndarray,
-                      dst_image_size: Tuple[int, int]) -> np.ndarray:
+                      dst_image_size: tuple[int, int]) -> np.ndarray:
     """
     Crop image patch from the center so that sides are equal to pads.
 

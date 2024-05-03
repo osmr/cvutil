@@ -10,7 +10,6 @@ import os
 import re
 import logging
 import shutil
-from typing import Tuple, List, Dict, Union, Optional
 
 
 class FileExtChecker(object):
@@ -25,7 +24,7 @@ class FileExtChecker(object):
         Whether to forcibly treat extensions as complex ones.
     """
     def __init__(self,
-                 exts: Tuple[str, ...],
+                 exts: tuple[str, ...],
                  force_complex_ext: bool = False):
         super(FileExtChecker, self).__init__()
         self.exts = exts
@@ -36,12 +35,12 @@ class FileExtChecker(object):
         """
         Process check request.
 
-        Parameters:
+        Parameters
         ----------
         file_name : str
             File name.
 
-        Returns:
+        Returns
         -------
         bool
             Is the file extension the same.
@@ -54,10 +53,10 @@ class FileExtChecker(object):
 
 
 def get_file_paths_in_dir(dir_path: str,
-                          exts: Tuple[str, ...],
+                          exts: tuple[str, ...],
                           explore_subdirs: bool,
                           return_dict: bool,
-                          force_complex_ext: bool = False) -> Union[List[str], Dict[str, str]]:
+                          force_complex_ext: bool = False) -> list[str] | dict[str, str]:
     """
     Get all specific file paths in directory.
 
@@ -105,7 +104,7 @@ def get_file_paths_in_dir(dir_path: str,
                 else:
                     file_paths.append(file_path)
 
-    def sort_key(x: List) -> List:
+    def sort_key(x: list) -> list:
         return [int(y) if y.isdigit() else y for y in re.findall(r"[^0-9]|[0-9]+", x)]
 
     if return_dict:
@@ -116,10 +115,10 @@ def get_file_paths_in_dir(dir_path: str,
 
 
 def get_video_file_paths(dir_path: str,
-                         exts: Tuple[str, ...] = (".mp4", ".mkv", ".avi", ".mov", ".m4v"),
+                         exts: tuple[str, ...] = (".mp4", ".mkv", ".avi", ".mov", ".m4v"),
                          explore_subdirs: bool = False,
-                         return_dict=False,
-                         **kwargs) -> Union[List[str], Dict[str, str]]:
+                         return_dict: bool = False,
+                         **kwargs) -> list[str] | dict[str, str]:
     """
     Get all video file paths in directory.
 
@@ -148,10 +147,10 @@ def get_video_file_paths(dir_path: str,
 
 
 def get_image_file_paths(dir_path: str,
-                         exts: Tuple[str, ...] = (".jpg", ".png"),
+                         exts: tuple[str, ...] = (".jpg", ".png"),
                          explore_subdirs: bool = False,
-                         return_dict=False,
-                         **kwargs) -> Union[List[str], Dict[str, str]]:
+                         return_dict: bool = False,
+                         **kwargs) -> list[str] | dict[str, str]:
     """
     Get all image file paths in directory.
 
@@ -180,10 +179,10 @@ def get_image_file_paths(dir_path: str,
 
 
 def get_audio_file_paths(dir_path: str,
-                         exts: Tuple[str, ...] = (".wav", ".mp3", "wma"),
+                         exts: tuple[str, ...] = (".wav", ".mp3", "wma"),
                          explore_subdirs: bool = False,
-                         return_dict=False,
-                         **kwargs) -> Union[List[str], Dict[str, str]]:
+                         return_dict: bool = False,
+                         **kwargs) -> list[str] | dict[str, str]:
     """
     Get all audio file paths in directory.
 
@@ -212,10 +211,10 @@ def get_audio_file_paths(dir_path: str,
 
 
 def get_json_file_paths(dir_path: str,
-                        exts: Tuple[str, ...] = (".json",),
+                        exts: tuple[str, ...] = (".json",),
                         explore_subdirs: bool = False,
-                        return_dict=False,
-                        **kwargs) -> Union[List[str], Dict[str, str]]:
+                        return_dict: bool = False,
+                        **kwargs) -> list[str] | dict[str, str]:
     """
     Get all JSON file paths in directory.
 
@@ -245,7 +244,7 @@ def get_json_file_paths(dir_path: str,
 
 def gen_output_file_path(input_file_path: str,
                          output_dir_path: str,
-                         output_file_ext: Optional[str] = None,
+                         output_file_ext: str | None = None,
                          output_file_suf: str = "",
                          input_file_suf_len: int = 0,
                          is_output_dir: bool = False) -> str:
@@ -365,12 +364,12 @@ def check_rewrite_file_path(file_path: str,
 
 def gen_output_file_path_with_rewrite(input_file_path: str,
                                       output_dir_path: str,
-                                      output_file_ext: Optional[str] = None,
+                                      output_file_ext: str | None = None,
                                       output_file_suf: str = "",
                                       input_file_suf_len: int = 0,
                                       is_output_dir: bool = False,
                                       rewrite: bool = False,
-                                      show_message: bool = True) -> Tuple[str, bool]:
+                                      show_message: bool = True) -> tuple[str, bool]:
     """
     Generate output file/directory path based on input file path. And check file/directory for non-existence.
 
@@ -420,7 +419,7 @@ def gen_output_dir_path_with_rewrite(input_file_path: str,
                                      output_dir_suf: str,
                                      input_file_suf_len: int = 0,
                                      rewrite: bool = False,
-                                     show_message: bool = True) -> Tuple[str, bool]:
+                                     show_message: bool = True) -> tuple[str, bool]:
     """
     Generate output directory path based on input file path. And check directory for non-existence.
 

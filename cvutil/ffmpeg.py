@@ -6,10 +6,9 @@ __all__ = ['extract_frames_from_video', 'extract_audio_from_video', 'merge_video
 
 import logging
 import subprocess
-from typing import List
 
 
-def _run_command(command: List[str],
+def _run_command(command: list[str],
                  show_output: bool = False):
     """
     Run shell command as subprocess.

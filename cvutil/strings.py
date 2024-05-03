@@ -5,11 +5,10 @@
 __all__ = ['split_str', 'pretty_print_dict_to_str']
 
 import json
-from typing import List, Dict, Optional
 
 
-def split_str(value: Optional[str],
-              sep: str = ",") -> Optional[List[str]]:
+def split_str(value: str | None,
+              sep: str = ",") -> list[str] | None:
     """
     Split string into list of strings.
 
@@ -34,7 +33,7 @@ def split_str(value: Optional[str],
     return value_list
 
 
-def pretty_print_dict_to_str(d: Dict[str, str]) -> str:
+def pretty_print_dict_to_str(d: dict[str, str]) -> str:
     """
     Pretty print of dictionary d to json-formatted string.
 

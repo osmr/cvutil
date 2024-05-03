@@ -4,13 +4,11 @@
 
 __all__ = ['calc_pad_value', 'encode_vectors_via_pca', 'decode_vectors_via_pca']
 
-from typing import Tuple, Dict, Union
-
 import numpy as np
 
 
 def calc_pad_value(src_value: int,
-                   dst_value: int) -> Tuple[int, int]:
+                   dst_value: int) -> tuple[int, int]:
     """
     Calculate a padding values for a pair of source and destination numbers.
 
@@ -23,8 +21,10 @@ def calc_pad_value(src_value: int,
 
     Returns
     -------
-    tuple(int, int)
-        Left and right paddings.
+    int
+        Left padding.
+    int
+        Right padding.
     """
     if dst_value < src_value:
         raise Exception("Destination value is smaller than source one")
@@ -39,9 +39,9 @@ def calc_pad_value(src_value: int,
 
 
 def encode_vectors_via_pca(vectors: np.ndarray,
-                           pca_params: Dict[str, np.ndarray],
+                           pca_params: dict[str, np.ndarray],
                            calc_whitening: bool = False,
-                           return_both: bool = False) -> Union[np.ndarray, Tuple[np.ndarray, np.ndarray]]:
+                           return_both: bool = False) -> np.ndarray | tuple[np.ndarray, np.ndarray]:
     """
     Encode (project to subspace) vectors via PCA.
 
@@ -49,7 +49,7 @@ def encode_vectors_via_pca(vectors: np.ndarray,
     ----------
     vectors : np.ndarray
         Input float vector. It's a matrix (n, m), where n is vector count, m is vector length.
-    pca_params : Dict[str, np.ndarray]
+    pca_params : dict[str, np.ndarray]
         PCA params.
     calc_whitening : bool, default False
         Whether to encode with whitening.
@@ -74,7 +74,7 @@ def encode_vectors_via_pca(vectors: np.ndarray,
 
 
 def decode_vectors_via_pca(vectors: np.ndarray,
-                           pca_params: Dict[str, np.ndarray],
+                           pca_params: dict[str, np.ndarray],
                            used_whitening: bool = False) -> np.ndarray:
     """
     Decode (reconstruct from subspace projections) vectors via PCA.
@@ -83,7 +83,7 @@ def decode_vectors_via_pca(vectors: np.ndarray,
     ----------
     vectors : np.ndarray
         Input float vector. It's a matrix (n, m), where n is vector count, m is vector length.
-    pca_params : Dict[str, np.ndarray]
+    pca_params : dict[str, np.ndarray]
         PCA params.
     used_whitening : bool, default False
         Whether whitening was used during encoding.
