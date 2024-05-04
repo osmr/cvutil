@@ -28,8 +28,8 @@ class FileExtChecker(object):
                  force_complex_ext: bool = False):
         super(FileExtChecker, self).__init__()
         self.exts = exts
-        self.has_complex_ext = force_complex_ext or\
-                               any([(len(ext) == 0) or (ext[0] != ".") or ("." in ext[1:]) for ext in exts])
+        self.has_complex_ext = (force_complex_ext or
+                                any([(len(ext) == 0) or (ext[0] != ".") or ("." in ext[1:]) for ext in exts]))
 
     def __call__(self, file_name: str) -> bool:
         """
