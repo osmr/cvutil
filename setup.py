@@ -24,9 +24,9 @@ setup(
         'Topic :: Scientific/Engineering :: Image Processing',
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
     ],
-    keywords='datasets image audio processing',
+    keywords='datasets image video audio processing',
     packages=find_packages(exclude=['others', '*.others', 'others.*', '*.others.*']),
-    install_requires=['opencv-python', 'pyrender'],
+    install_requires=['opencv-python'],
     python_requires='>=3.10',
     include_package_data=True,
 )
