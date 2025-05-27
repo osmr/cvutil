@@ -95,11 +95,21 @@ def get_package_versions(module_names: list[str]) -> dict[str, str]:
     module_versions = {}
     for module_name in module_names:
         try:
-            module_versions[module_name] = __import__(module_name).__version__
-        except ImportError:
-            module_versions[module_name] = None
-        except AttributeError:
-            module_versions[module_name] = "unknown"
+            import importlib.metadata
+            module_versions[module_name] = importlib.metadata.version(module_name)
+        except importlib.metadata.PackageNotFoundError:
+            module_versions[module_name] = "package_not_found"
+        except Exception:
+            try:
+                import pkg_resources
+                module_versions[module_name] = pkg_resources.get_distribution(module_name).version
+            except Exception:
+                try:
+                    module_versions[module_name] = __import__(module_name).__version__
+                except ImportError:
+                    module_versions[module_name] = None
+                except AttributeError:
+                    module_versions[module_name] = "unknown"
     return module_versions
 
 
