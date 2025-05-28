@@ -160,10 +160,50 @@ def get_ffmpeg_version() -> str:
     return output_text
 
 
+def get_cuda_version() -> str:
+    """
+    Get CUDA version.
+
+    Returns
+    -------
+    str
+        Resulted info.
+    """
+    try:
+        import torch
+        return torch.version.cuda
+    except Exception:
+        return "unknown"
+
+
+def get_cudnn_version() -> str:
+    """
+    Get cuDNN version.
+
+    Returns
+    -------
+    str
+        Resulted info.
+    """
+    try:
+        import torch
+        cudnn_ver = torch.backends.cudnn.version()
+        if cudnn_ver is not None:
+            major = cudnn_ver // 10000
+            minor = (cudnn_ver % 10000) // 100
+            patch = cudnn_ver % 100
+            return f"{major}.{minor}.{patch} ({cudnn_ver})"
+        else:
+            return "unknown"
+    except Exception:
+        return "unknown"
+
+
 def get_env_stats(packages: list[str] | None,
                   pip_packages: list[str] | None,
                   main_script_path: str | None = None,
-                  check_ffmpeg: bool = False) -> dict[str, str]:
+                  check_ffmpeg: bool = False,
+                  check_cuda: bool = False) -> dict[str, str]:
     """
     Get environment statistics.
 
@@ -177,6 +217,8 @@ def get_env_stats(packages: list[str] | None,
         Path to main running script.
     check_ffmpeg : bool, default False
         Whether to show FFmpeg version.
+    check_cuda : bool, default False
+        Whether to show CUDA version.
 
     Returns
     -------
@@ -191,6 +233,9 @@ def get_env_stats(packages: list[str] | None,
     }
     if check_ffmpeg:
         env_stat_dict["ffmpeg"] = get_ffmpeg_version()
+    if check_cuda:
+        env_stat_dict["cuda"] = get_cuda_version()
+        env_stat_dict["cudnn"] = get_cudnn_version()
     if (packages is not None) and (len(packages) > 0):
         module_versions = get_package_versions(packages)
         env_stat_dict["packages"] = module_versions

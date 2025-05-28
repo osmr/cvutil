@@ -55,7 +55,8 @@ def initialize_logging(logging_dir_path: str | None = None,
                        script_args: argparse.Namespace | None = None,
                        packages: str | None = "log_packages",
                        pip_packages: str | None = "log_pip_packages",
-                       check_ffmpeg: bool = False) -> tuple[logging.Logger, bool]:
+                       check_ffmpeg: bool = False,
+                       check_cuda: bool = False) -> tuple[logging.Logger, bool]:
     """
     Initialize logging subsystem.
 
@@ -75,6 +76,8 @@ def initialize_logging(logging_dir_path: str | None = None,
         Name of field on script_args for package name list to inspect by 'pip show'.
     check_ffmpeg : bool, default False
         Whether to show FFmpeg version.
+    check_cuda : bool, default False
+        Whether to show CUDA version.
 
     Returns
     -------
@@ -102,5 +105,6 @@ def initialize_logging(logging_dir_path: str | None = None,
         packages=packages,
         pip_packages=pip_packages,
         main_script_path=main_script_path,
-        check_ffmpeg=check_ffmpeg))))
+        check_ffmpeg=check_ffmpeg,
+        check_cuda=check_cuda))))
     return logger, log_file_exist
