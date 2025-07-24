@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cvutil"
+dynamic = ["version"]
+description = "Set of auxiliary scripts for computer vision tasks"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+authors = [
+  { name = "Oleg Sémery", email = "osemery@gmail.com" },
+]
+urls = { Homepage = "https://github.com/osmr/cvutil" }
+keywords = [
+  "datasets",
+  "image processing",
+  "video processing",
+  "audio processing"
+]
+classifiers = [
+    'Development Status :: 3 - Alpha',
+    'Intended Audience :: Science/Research',
+    'Operating System :: OS Independent',
+    'Programming Language :: Python :: 3',
+    'Topic :: Scientific/Engineering :: Image Processing',
+    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+]
+dependencies = [
+    "opencv-python",
+]
+
+[tool.wheel]
+universal = true
+
+[tool.setuptools.dynamic]
+version = {attr = "cvutil.__version__"}
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+exclude = ["others", "*.others", "others.*", "*.others.*"]
