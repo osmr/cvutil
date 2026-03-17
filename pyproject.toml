@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61.0", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -20,25 +20,36 @@ keywords = [
   "audio processing"
 ]
 classifiers = [
-    'Development Status :: 3 - Alpha',
-    'Intended Audience :: Science/Research',
-    'Operating System :: OS Independent',
-    'Programming Language :: Python :: 3',
-    'Topic :: Scientific/Engineering :: Image Processing',
-    'Topic :: Scientific/Engineering :: Artificial Intelligence',
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering :: Image Processing",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
     "opencv-python",
 ]
 
-[tool.wheel]
-universal = true
-
 [tool.setuptools.dynamic]
 version = {attr = "cvutil.__version__"}
 
-[tool.setuptools]
-include-package-data = true
-
 [tool.setuptools.packages.find]
 exclude = ["others", "*.others", "others.*", "*.others.*"]
+
+[tool.ruff]
+line-length = 127
+exclude = [
+    ".venv",
+    "venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist"
+]
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "B", "UP", "ANN"]
+
+[tool.ty.src]
+exclude = [".venv", "venv"]

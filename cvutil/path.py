@@ -12,7 +12,7 @@ import logging
 import shutil
 
 
-class FileExtChecker(object):
+class FileExtChecker:
     """
     File extension checker.
 
@@ -25,8 +25,8 @@ class FileExtChecker(object):
     """
     def __init__(self,
                  exts: tuple[str, ...],
-                 force_complex_ext: bool = False):
-        super(FileExtChecker, self).__init__()
+                 force_complex_ext: bool = False) -> None:
+        super().__init__()
         self.exts = exts
         self.has_complex_ext = (force_complex_ext or
                                 any([(len(ext) == 0) or (ext[0] != ".") or ("." in ext[1:]) for ext in exts]))
@@ -81,7 +81,7 @@ def get_file_paths_in_dir(dir_path: str,
     ext_checker = FileExtChecker(exts, force_complex_ext)
     file_paths = {} if return_dict else []
     if explore_subdirs:
-        for subdir, dirs, files in os.walk(dir_path):
+        for subdir, _dirs, files in os.walk(dir_path):
             for file_name in files:
                 if ext_checker(file_name):
                     if return_dict:
@@ -118,7 +118,7 @@ def get_video_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".mp4", ".mkv", ".avi", ".mov", ".m4v"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs) -> list[str] | dict[str, str]:
+                         **kwargs: object) -> list[str] | dict[str, str]:
     """
     Get all video file paths in directory.
 
@@ -150,7 +150,7 @@ def get_image_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".jpg", ".png"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs) -> list[str] | dict[str, str]:
+                         **kwargs: object) -> list[str] | dict[str, str]:
     """
     Get all image file paths in directory.
 
@@ -182,7 +182,7 @@ def get_audio_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".wav", ".mp3", "wma"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs) -> list[str] | dict[str, str]:
+                         **kwargs: object) -> list[str] | dict[str, str]:
     """
     Get all audio file paths in directory.
 
@@ -214,7 +214,7 @@ def get_json_file_paths(dir_path: str,
                         exts: tuple[str, ...] = (".json",),
                         explore_subdirs: bool = False,
                         return_dict: bool = False,
-                        **kwargs) -> list[str] | dict[str, str]:
+                        **kwargs: object) -> list[str] | dict[str, str]:
     """
     Get all JSON file paths in directory.
 
@@ -275,16 +275,11 @@ def gen_output_file_path(input_file_path: str,
     if input_file_suf_len > 0:
         input_file_name_stem = input_file_name_stem[:-input_file_suf_len]
     if is_output_dir:
-        output_file_name = "{stem}{suf}".format(
-            stem=input_file_name_stem,
-            suf=output_file_suf)
+        output_file_name = f"{input_file_name_stem}{output_file_suf}"
     else:
         if output_file_ext is None:
             output_file_ext = input_file_ext
-        output_file_name = "{stem}{suf}{ext}".format(
-            stem=input_file_name_stem,
-            suf=output_file_suf,
-            ext=output_file_ext)
+        output_file_name = f"{input_file_name_stem}{output_file_suf}{output_file_ext}"
     output_file_path = os.path.join(output_dir_path, output_file_name)
     return output_file_path
 
@@ -348,9 +343,7 @@ def check_rewrite_file_path(file_path: str,
         if not rewrite:
             if show_message:
                 obj_type_name = "Directory" if is_dir else "File"
-                logging.info("{obj_type_name} `{file_path}` is already exist, skipped".format(
-                    obj_type_name=obj_type_name,
-                    file_path=file_path))
+                logging.info(f"{obj_type_name} `{file_path}` is already exist, skipped")
             return True
         else:
             if is_dir:

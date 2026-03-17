@@ -43,7 +43,7 @@ def get_sys_python_version() -> str:
         Resulted info.
     """
     try:
-        return "{0}.{1}.{2}".format(*sys.version_info[0:3])
+        return f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
     except Exception:
         return "unknown"
 
@@ -68,9 +68,9 @@ def get_git_commit_info(script_path: str | None = None) -> str:
         else:
             pwd = os.getcwd()
         if os.name == "nt":
-            command = "cmd /V /C \"cd {} && git log -n 1\"".format(pwd)
+            command = f"cmd /V /C \"cd {pwd} && git log -n 1\""
         else:
-            command = ["cd {}; git log -n 1".format(pwd)]
+            command = [f"cd {pwd}; git log -n 1"]
         output_bytes = subprocess.check_output(command, shell=True)
         output_text = output_bytes.decode("utf-8").strip()
     except Exception:
@@ -134,7 +134,7 @@ def get_pip_package_descriptions(package_names: list[str],
     for package_name in package_names:
         try:
             output_bytes = subprocess.check_output([
-                "pip{0}".format(python_version),
+                f"pip{python_version}",
                 "show", package_name])
             output_text = output_bytes.decode("utf-8").strip()
         except (subprocess.CalledProcessError, OSError):

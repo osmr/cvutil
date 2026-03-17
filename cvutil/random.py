@@ -33,7 +33,7 @@ def init_rand(seed: int,
         import secrets
         seed = secrets.randbelow(2 ** 16)
     if not os.environ.get("PYTHONHASHSEED"):
-        logging.warning("Set PYTHONHASHSEED={}!".format(seed))
+        logging.warning(f"Set PYTHONHASHSEED={seed}!")
     if ("random" in sys.modules) or forced:
         import random
         random.seed(seed)

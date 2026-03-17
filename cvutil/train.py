@@ -6,10 +6,10 @@ __all__ = ['TrainProcessController']
 
 import os
 import shutil
-from typing import Callable
+from collections.abc import Callable
 
 
-class TrainProcessController(object):
+class TrainProcessController:
     """
     This controller does the following things:
     1. Saves metrics and train parameters to a file in tabular form.
@@ -71,7 +71,7 @@ class TrainProcessController(object):
                  key_metric_idx: int = 0,
                  score_log_file_path: str | None = None,
                  score_log_attempt_value: int = 1,
-                 best_map_log_file_path: str | None = None):
+                 best_map_log_file_path: str | None = None) -> None:
 
         if not os.path.exists(last_checkpoint_dir_path):
             os.makedirs(last_checkpoint_dir_path)
@@ -148,7 +148,7 @@ class TrainProcessController(object):
 
         self.can_save = (self.checkpoint_file_save_callback is not None)
 
-    def __del__(self):
+    def __del__(self) -> None:
         """
         Releasing resources.
         """
@@ -160,7 +160,7 @@ class TrainProcessController(object):
     def update_epoch_and_callback(self,
                                   epoch1: int,
                                   params: tuple[float | int, ...],
-                                  **kwargs):
+                                  **kwargs: object) -> None:
         """
         Update state after training epoch and probably call checkpoint_file_save_callback.
 
@@ -219,19 +219,19 @@ class TrainProcessController(object):
                     del self.best_checkpoint_params_file_stems[0]
 
                 if self.best_map_log_file is not None:
-                    self.best_map_log_file.write("\n{:02d}\t{:04d}\t{:.4f}".format(
-                        self.score_log_attempt_value, epoch1, curr_key_metric_value))
+                    self.best_map_log_file.write(
+                        f"\n{self.score_log_attempt_value:02d}\t{epoch1:04d}\t{curr_key_metric_value:.4f}")
                     self.best_map_log_file.flush()
         if self.score_log_file is not None:
             score_log_file_row = "\n" + "\t".join([str(self.score_log_attempt_value), str(epoch1)] +
-                                                  list(map(lambda x: "{:.4f}".format(x), params)))
+                                                  list(map(lambda x: f"{x:.4f}", params)))
             self.score_log_file.write(score_log_file_row)
             self.score_log_file.flush()
 
     @staticmethod
     def _create_checkpoint_file_path_full_prefix(checkpoint_dir_path: str,
                                                  checkpoint_file_name_prefix: str,
-                                                 checkpoint_file_name_suffix: str):
+                                                 checkpoint_file_name_suffix: str) -> str:
         """
         Create checkpoint file path with full prefix.
 
@@ -254,7 +254,7 @@ class TrainProcessController(object):
     @staticmethod
     def _get_checkpoint_params_file_stem(checkpoint_file_path_prefix: str,
                                          epoch: int,
-                                         acc: float):
+                                         acc: float) -> str:
         """
         Create checkpoint file stem path.
 
@@ -267,11 +267,11 @@ class TrainProcessController(object):
         acc : float
             Accuracy value.
         """
-        return "{}_{:04d}_{:.4f}".format(checkpoint_file_path_prefix, epoch, acc)
+        return f"{checkpoint_file_path_prefix}_{epoch:04d}_{acc:.4f}"
 
     def _get_last_checkpoint_params_file_stem(self,
                                               epoch: int,
-                                              acc: float):
+                                              acc: float) -> str:
         """
         Create checkpoint file stem path for the last checkpoint.
 
@@ -286,7 +286,7 @@ class TrainProcessController(object):
 
     def _get_best_checkpoint_params_file_stem(self,
                                               epoch: int,
-                                              acc: float):
+                                              acc: float) -> str:
         """
         Create checkpoint file stem path for the best checkpoint.
 

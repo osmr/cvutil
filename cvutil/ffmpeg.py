@@ -9,7 +9,7 @@ import subprocess
 
 
 def _run_command(command: list[str],
-                 show_output: bool = False):
+                 show_output: bool = False) -> None:
     """
     Run shell command as subprocess.
 
@@ -32,7 +32,7 @@ def extract_frames_from_video(input_video_file_path: str,
                               frame_file_name_ext: str,
                               fps: float = 60,
                               all_frames: bool = True,
-                              show_ffmpeg_output: bool = False):
+                              show_ffmpeg_output: bool = False) -> None:
     """
     Extract frames from a video file.
 
@@ -66,7 +66,7 @@ def extract_frames_from_video(input_video_file_path: str,
 def extract_audio_from_video(input_video_file_path: str,
                              output_audio_file_path: str,
                              ffmpeg_params: str = "-vn -c:a copy",
-                             show_ffmpeg_output: bool = False):
+                             show_ffmpeg_output: bool = False) -> None:
     """
     Real extract an audio stream from a video file.
 
@@ -93,7 +93,7 @@ def merge_video_with_audio(input_video_file_path: str,
                            input_audio_file_path: str,
                            output_video_file_path: str,
                            ffmpeg_params: str = "-c:v copy -c:a aac",
-                           show_ffmpeg_output: bool = False):
+                           show_ffmpeg_output: bool = False) -> None:
     """
     Merge video with audio into a video file.
 

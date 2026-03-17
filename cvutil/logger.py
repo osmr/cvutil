@@ -93,7 +93,7 @@ def initialize_logging(logging_dir_path: str | None = None,
     if script_args is not None:
         script_arg_dict = script_args.__dict__
         script_arg_dict = {k: script_arg_dict[k] for k in sorted(script_arg_dict.keys())}
-        logging.info("Script arguments:\n{}".format(pretty_print_dict_to_str(script_arg_dict)))
+        logging.info(f"Script arguments:\n{pretty_print_dict_to_str(script_arg_dict)}")
         if packages is not None:
             packages = split_str(script_arg_dict[packages]) if (packages in script_arg_dict.keys()) else []
         if pip_packages is not None:
