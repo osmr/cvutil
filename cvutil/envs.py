@@ -8,7 +8,6 @@ import os
 import sys
 import subprocess
 import platform
-import json
 
 
 def get_platform_info() -> dict[str, str]:
@@ -26,7 +25,7 @@ def get_platform_info() -> dict[str, str]:
         "version": platform.version(),
         "machine": platform.machine(),
         "processor": platform.processor(),
-        "libc_ver": json.dumps(platform.libc_ver()),
+        "libc_ver": " ".join(platform.libc_ver()),
         "python_version": platform.python_version(),
         "python_implementation": platform.python_implementation(),
         "python_compiler": platform.python_compiler(),
@@ -172,7 +171,8 @@ def get_cuda_version() -> str:
     """
     try:
         import torch
-        return torch.version.cuda
+        ver = torch.version.cuda
+        return ver if ver is not None else "unknown"
     except Exception:
         return "unknown"
 
