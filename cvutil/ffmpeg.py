@@ -20,9 +20,9 @@ def _run_command(command: list[str],
     show_output : bool, default False
         Whether to show command output.
     """
-    kwargs = {"stdout": None, "stderr": None} if show_output else\
-        {"stdout": subprocess.DEVNULL, "stderr": subprocess.DEVNULL}
-    proc_res = subprocess.run(command, **kwargs)
+    stdout = None if show_output else subprocess.DEVNULL
+    stderr = None if show_output else subprocess.DEVNULL
+    proc_res = subprocess.run(command, stdout=stdout, stderr=stderr)
     if proc_res.returncode != 0:
         logging.error("Subprocess `{}` returns code `{}`".format(" ".join(proc_res.args), proc_res.returncode))
 

@@ -89,21 +89,24 @@ def initialize_logging(logging_dir_path: str | None = None,
     logger, log_file_exist = prepare_logger(
         logging_dir_path=logging_dir_path,
         logging_file_name=logging_file_name)
+
     logging.info("Script command line:\n{}".format(" ".join(sys.argv)))
+
+    packages_list: list[str] | None = None
+    pip_packages_list: list[str] | None = None
+
     if script_args is not None:
         script_arg_dict = script_args.__dict__
         script_arg_dict = {k: script_arg_dict[k] for k in sorted(script_arg_dict.keys())}
         logging.info(f"Script arguments:\n{pretty_print_dict_to_str(script_arg_dict)}")
         if packages is not None:
-            packages = split_str(script_arg_dict[packages]) if (packages in script_arg_dict.keys()) else []
+            packages_list = split_str(script_arg_dict[packages]) if (packages in script_arg_dict.keys()) else []
         if pip_packages is not None:
-            pip_packages = split_str(script_arg_dict[pip_packages]) if (pip_packages in script_arg_dict.keys()) else []
-    else:
-        packages = None
-        pip_packages = None
+            pip_packages_list = split_str(script_arg_dict[pip_packages]) if (pip_packages in script_arg_dict.keys()) else []
+
     logging.info("Environment statistics:\n{}".format(pretty_print_dict_to_str(get_env_stats(
-        packages=packages,
-        pip_packages=pip_packages,
+        packages=packages_list,
+        pip_packages=pip_packages_list,
         main_script_path=main_script_path,
         check_ffmpeg=check_ffmpeg,
         check_cuda=check_cuda))))

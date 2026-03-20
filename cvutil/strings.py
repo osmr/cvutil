@@ -33,7 +33,7 @@ def split_str(value: str | None,
     return value_list
 
 
-def pretty_print_dict_to_str(d: dict[str, str]) -> str:
+def pretty_print_dict_to_str(d: dict[str, str | dict[str, str]]) -> str:
     """
     Pretty print of dictionary d to json-formatted string.
 

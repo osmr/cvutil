@@ -56,7 +56,7 @@ def get_file_paths_in_dir(dir_path: str,
                           exts: tuple[str, ...],
                           explore_subdirs: bool,
                           return_dict: bool,
-                          force_complex_ext: bool = False) -> list[str] | dict[str, str]:
+                          force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
     Get all specific file paths in directory.
 
@@ -85,14 +85,17 @@ def get_file_paths_in_dir(dir_path: str,
             for file_name in files:
                 if ext_checker(file_name):
                     if return_dict:
+                        assert isinstance(file_paths, dict)
                         if subdir not in file_paths.keys():
                             file_paths[subdir] = []
                         file_paths[subdir].append(file_name)
                     else:
+                        assert isinstance(file_paths, list)
                         file_path = os.path.join(subdir, file_name)
                         file_paths.append(file_path)
     else:
         if return_dict:
+            assert isinstance(file_paths, dict)
             file_paths[dir_path] = []
         for file_name in os.listdir(dir_path):
             file_path = os.path.join(dir_path, file_name)
@@ -100,16 +103,20 @@ def get_file_paths_in_dir(dir_path: str,
                 continue
             if ext_checker(file_name):
                 if return_dict:
+                    assert isinstance(file_paths, dict)
                     file_paths[dir_path].append(file_name)
                 else:
+                    assert isinstance(file_paths, list)
                     file_paths.append(file_path)
 
-    def sort_key(x: list) -> list:
+    def sort_key(x: str) -> list[int | str]:
         return [int(y) if y.isdigit() else y for y in re.findall(r"[^0-9]|[0-9]+", x)]
 
     if return_dict:
+        assert isinstance(file_paths, dict)
         file_paths = {k: sorted(file_paths[k], key=sort_key) for k in sorted(file_paths.keys(), key=sort_key)}
     else:
+        assert isinstance(file_paths, list)
         file_paths = sorted(file_paths, key=sort_key)
     return file_paths
 
@@ -118,7 +125,7 @@ def get_video_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".mp4", ".mkv", ".avi", ".mov", ".m4v"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs: object) -> list[str] | dict[str, str]:
+                         force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
     Get all video file paths in directory.
 
@@ -132,6 +139,8 @@ def get_video_file_paths(dir_path: str,
         Whether to explore subdirectories.
     return_dict : bool, default False
         Whether to return dictionary structure.
+    force_complex_ext : bool, default False
+        Whether to forcibly treat extensions as complex ones.
 
     Returns
     -------
@@ -143,14 +152,14 @@ def get_video_file_paths(dir_path: str,
         exts=exts,
         explore_subdirs=explore_subdirs,
         return_dict=return_dict,
-        **kwargs)
+        force_complex_ext=force_complex_ext)
 
 
 def get_image_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".jpg", ".png"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs: object) -> list[str] | dict[str, str]:
+                         force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
     Get all image file paths in directory.
 
@@ -164,6 +173,8 @@ def get_image_file_paths(dir_path: str,
         Whether to explore subdirectories.
     return_dict : bool, default False
         Whether to return dictionary structure.
+    force_complex_ext : bool, default False
+        Whether to forcibly treat extensions as complex ones.
 
     Returns
     -------
@@ -175,14 +186,14 @@ def get_image_file_paths(dir_path: str,
         exts=exts,
         explore_subdirs=explore_subdirs,
         return_dict=return_dict,
-        **kwargs)
+        force_complex_ext=force_complex_ext)
 
 
 def get_audio_file_paths(dir_path: str,
                          exts: tuple[str, ...] = (".wav", ".mp3", "wma"),
                          explore_subdirs: bool = False,
                          return_dict: bool = False,
-                         **kwargs: object) -> list[str] | dict[str, str]:
+                         force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
     Get all audio file paths in directory.
 
@@ -196,6 +207,8 @@ def get_audio_file_paths(dir_path: str,
         Whether to explore subdirectories.
     return_dict : bool, default False
         Whether to return dictionary structure.
+    force_complex_ext : bool, default False
+        Whether to forcibly treat extensions as complex ones.
 
     Returns
     -------
@@ -207,14 +220,14 @@ def get_audio_file_paths(dir_path: str,
         exts=exts,
         explore_subdirs=explore_subdirs,
         return_dict=return_dict,
-        **kwargs)
+        force_complex_ext=force_complex_ext)
 
 
 def get_json_file_paths(dir_path: str,
                         exts: tuple[str, ...] = (".json",),
                         explore_subdirs: bool = False,
                         return_dict: bool = False,
-                        **kwargs: object) -> list[str] | dict[str, str]:
+                        force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
     Get all JSON file paths in directory.
 
@@ -228,6 +241,8 @@ def get_json_file_paths(dir_path: str,
         Whether to explore subdirectories.
     return_dict : bool, default False
         Whether to return dictionary structure.
+    force_complex_ext : bool, default False
+        Whether to forcibly treat extensions as complex ones.
 
     Returns
     -------
@@ -239,7 +254,7 @@ def get_json_file_paths(dir_path: str,
         exts=exts,
         explore_subdirs=explore_subdirs,
         return_dict=return_dict,
-        **kwargs)
+        force_complex_ext=force_complex_ext)
 
 
 def gen_output_file_path(input_file_path: str,

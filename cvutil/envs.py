@@ -8,6 +8,7 @@ import os
 import sys
 import subprocess
 import platform
+import json
 
 
 def get_platform_info() -> dict[str, str]:
@@ -25,7 +26,7 @@ def get_platform_info() -> dict[str, str]:
         "version": platform.version(),
         "machine": platform.machine(),
         "processor": platform.processor(),
-        "libc_ver": platform.libc_ver(),
+        "libc_ver": json.dumps(platform.libc_ver()),
         "python_version": platform.python_version(),
         "python_implementation": platform.python_implementation(),
         "python_compiler": platform.python_compiler(),
@@ -203,7 +204,7 @@ def get_env_stats(packages: list[str] | None,
                   pip_packages: list[str] | None,
                   main_script_path: str | None = None,
                   check_ffmpeg: bool = False,
-                  check_cuda: bool = False) -> dict[str, str]:
+                  check_cuda: bool = False) -> dict[str, str | dict[str, str]]:
     """
     Get environment statistics.
 
@@ -241,6 +242,6 @@ def get_env_stats(packages: list[str] | None,
         env_stat_dict["packages"] = module_versions
     if (pip_packages is not None) and (len(pip_packages) > 0):
         python_version = str(sys.version_info[0])
-        package_descriptions = get_pip_package_descriptions(packages, python_version)
+        package_descriptions = get_pip_package_descriptions(pip_packages, python_version)
         env_stat_dict["pip_packages"] = package_descriptions
     return env_stat_dict

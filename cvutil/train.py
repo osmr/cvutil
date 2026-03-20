@@ -175,6 +175,7 @@ class TrainProcessController:
         """
         curr_key_metric_value = params[self.key_metric_idx]
         if self.can_save:
+            assert (self.checkpoint_file_save_callback is not None)
             last_checkpoint_params_file_stem = None
             if (epoch1 % self.save_interval == 0) or (epoch1 == self.num_epochs):
                 last_checkpoint_params_file_stem = self._get_last_checkpoint_params_file_stem(
@@ -231,7 +232,7 @@ class TrainProcessController:
     @staticmethod
     def _create_checkpoint_file_path_full_prefix(checkpoint_dir_path: str,
                                                  checkpoint_file_name_prefix: str,
-                                                 checkpoint_file_name_suffix: str) -> str:
+                                                 checkpoint_file_name_suffix: str | None) -> str:
         """
         Create checkpoint file path with full prefix.
 
@@ -241,7 +242,7 @@ class TrainProcessController:
             Directory for checkpoint saving.
         checkpoint_file_name_prefix : str
             Checkpoint file name prefix.
-        checkpoint_file_name_suffix : str
+        checkpoint_file_name_suffix : str or None
             Checkpoint file name suffix.
         """
         checkpoint_file_name_full_prefix = checkpoint_file_name_prefix
