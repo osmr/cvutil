@@ -33,7 +33,7 @@ class FileExtChecker:
 
     def __call__(self, file_name: str) -> bool:
         """
-        Process check request.
+        Check whether a file name matches the configured extensions.
 
         Parameters
         ----------
@@ -43,7 +43,7 @@ class FileExtChecker:
         Returns
         -------
         bool
-            Is the file extension the same.
+            Whether the file name matches one of the configured extensions.
         """
         if self.has_complex_ext:
             return any([file_name.endswith(ext) for ext in self.exts])
@@ -58,7 +58,7 @@ def get_file_paths_in_dir(dir_path: str,
                           return_dict: bool,
                           force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all specific file paths in a directory.
+    Get all file paths with the specified extensions in a directory.
 
     Parameters
     ----------
@@ -75,7 +75,7 @@ def get_file_paths_in_dir(dir_path: str,
 
     Returns
     -------
-    list(str) or dict(str, str)
+    list(str) or dict(str, list(str))
         Specific file paths.
     """
     ext_checker = FileExtChecker(exts, force_complex_ext)
@@ -144,7 +144,7 @@ def get_video_file_paths(dir_path: str,
 
     Returns
     -------
-    list(str) or dict(str, str)
+    list(str) or dict(str, list(str))
         Video file paths.
     """
     return get_file_paths_in_dir(
@@ -178,7 +178,7 @@ def get_image_file_paths(dir_path: str,
 
     Returns
     -------
-    list(str) or dict(str, str)
+    list(str) or dict(str, list(str))
         Image file paths.
     """
     return get_file_paths_in_dir(
@@ -212,7 +212,7 @@ def get_audio_file_paths(dir_path: str,
 
     Returns
     -------
-    list(str) or dict(str, str)
+    list(str) or dict(str, list(str))
         Audio file paths.
     """
     return get_file_paths_in_dir(
@@ -246,7 +246,7 @@ def get_json_file_paths(dir_path: str,
 
     Returns
     -------
-    list(str) or dict(str, str)
+    list(str) or dict(str, list(str))
         JSON file paths.
     """
     return get_file_paths_in_dir(
@@ -336,14 +336,14 @@ def check_rewrite_file_path(file_path: str,
                             show_message: bool = True,
                             is_dir: bool = False) -> bool:
     """
-    Check file/directory for non-existence.
+    Check whether the target file or directory already exists and apply overwrite logic if requested.
 
     Parameters
     ----------
     file_path : str
         File/directory path.
     rewrite : bool
-        Should we rewrite existing file/directory.
+        Whether to overwrite an existing file or directory.
     show_message : bool
         Whether to show a skip message.
     is_dir : bool, default False

@@ -49,9 +49,9 @@ def resize_image_with_min_size(image: np.ndarray,
     image : np.ndarray
         Original image.
     min_size : int
-        Minimal size value.
+        Minimum size value.
     downscale : bool, default False
-        Whether to downscale image.
+        Whether to downscale the image.
     interpolation : int, default cv2.INTER_LINEAR
         OpenCV interpolation mode.
 
@@ -73,7 +73,7 @@ def resize_image_with_min_size(image: np.ndarray,
 def crop_image(image: np.ndarray,
                crop_params: tuple[int, int, int, int]) -> np.ndarray:
     """
-    Crop image patch.
+    Crop an image patch.
 
     Parameters
     ----------
@@ -100,7 +100,7 @@ def center_crop_image(image: np.ndarray,
     Parameters
     ----------
     image : np.ndarray
-        Cropping image.
+        Input image to crop.
     dst_image_size : tuple(int, int)
         Desired image size (height x width).
 

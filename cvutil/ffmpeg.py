@@ -11,7 +11,7 @@ import subprocess
 def _run_command(command: list[str],
                  show_output: bool = False) -> None:
     """
-    Run shell command as subprocess.
+    Run a shell command as a subprocess.
 
     Parameters
     ----------
@@ -45,11 +45,11 @@ def extract_frames_from_video(input_video_file_path: str,
     frame_file_name_ext : str
         Target frame file name extension.
     fps : float, default 60
-        Video FPS (for all frame extraction only).
-    all_frames : bool, default False
+        Frame rate used only when all_frames=True.
+    all_frames : bool, default True
         Whether to extract all frames from the video stream without dropping or duplicating frames.
     show_ffmpeg_output : bool, default False
-        Whether to show FFMPEG output.
+        Whether to show FFmpeg output.
     """
     if all_frames:
         cmd_template = ["ffmpeg", "-r", "{fps}", "-i", "{in_video}", "-r", "{fps}", "-q:v", "2", "{dir}/%5d{frame_ext}"]
@@ -79,7 +79,7 @@ def extract_audio_from_video(input_video_file_path: str,
     ffmpeg_params : str, default '-vn -c:a copy'
         FFmpeg encoder parameters.
     show_ffmpeg_output : bool, default False
-        Whether to show FFMPEG output.
+        Whether to show FFmpeg output.
     """
     cmd_template1 = ["ffmpeg", "-i", "{in_video}"]
     cmd_template2 = ["{out_audio}"]
@@ -108,7 +108,7 @@ def merge_video_with_audio(input_video_file_path: str,
     ffmpeg_params : str, default '-c:v copy -c:a aac'
         FFmpeg muxing parameters.
     show_ffmpeg_output : bool, default False
-        Whether to show FFMPEG output.
+        Whether to show FFmpeg output.
     """
     cmd_template1 = ["ffmpeg", "-i", "{in_video}", "-i", "{in_audio}"]
     cmd_template2 = ["{out_video}"]

@@ -12,12 +12,12 @@ import platform
 
 def get_platform_info() -> dict[str, str]:
     """
-    Get platform (operational system) information.
+    Get platform (operating system) information.
 
     Returns
     -------
     dict(str, str)
-        Returned information.
+        Platform information.
     """
     platform_info = {
         "system": platform.system(),
@@ -40,7 +40,7 @@ def get_sys_python_version() -> str:
     Returns
     -------
     str
-        Returned information.
+        Python version string.
     """
     try:
         return f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
@@ -50,7 +50,7 @@ def get_sys_python_version() -> str:
 
 def get_git_commit_info(script_path: str | None = None) -> str:
     """
-    Get the last Git repo commit information.
+    Get information about the latest Git commit in the repository.
 
     Parameters
     ----------
@@ -60,7 +60,7 @@ def get_git_commit_info(script_path: str | None = None) -> str:
     Returns
     -------
     str
-        Returned information.
+        Latest Git commit information.
     """
     try:
         if (script_path is not None) and script_path:
@@ -150,7 +150,7 @@ def get_ffmpeg_version() -> str:
     Returns
     -------
     str
-        Returned information.
+        FFmpeg version string.
     """
     try:
         output_bytes = subprocess.check_output(["ffmpeg", "-version"])
@@ -167,7 +167,7 @@ def get_cuda_version() -> str:
     Returns
     -------
     str
-        Returned information.
+        CUDA version string.
     """
     try:
         import torch
@@ -184,7 +184,7 @@ def get_cudnn_version() -> str:
     Returns
     -------
     str
-        Returned information.
+        cuDNN version string.
     """
     try:
         import torch

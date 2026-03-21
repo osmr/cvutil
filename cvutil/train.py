@@ -27,7 +27,7 @@ class TrainProcessController:
         Suffix for last checkpoint file name. If None, then it is not used.
     best_checkpoint_file_name_suffix : str or None, default None
         Suffix for best checkpoint file name.
-    last_checkpoint_dir_path : str, default ''
+    last_checkpoint_dir_path : str
         Directory path for saving the last checkpoint files.
     best_checkpoint_dir_path : str or None, default None
         Directory path for saving the best checkpoint files.
@@ -35,39 +35,45 @@ class TrainProcessController:
     last_checkpoint_file_count : int, default 2
         Number of last checkpoint files to keep.
     best_checkpoint_file_count : int, default 2
-        Number of the best checkpoint files to keep.
+        Number of best-so-far checkpoint files to keep.
     checkpoint_file_save_callback : function or None, default None
         Callback that actually saves checkpoint files.
     checkpoint_file_exts : tuple(str, ...), default ('.params',)
         List of checkpoint file extensions.
     save_interval : int, default 1
         Interval of checkpoint file saving.
-    num_epochs : int, default -1
-        Number of epochs to force save the last checkpoint (important if save_interval > 1).
-    param_names : tuple(str, ...) or None, default None
-        Names for metrics and train parameters.
+    num_epochs : int
+        Total number of training epochs. Must be greater than 0.
+        Used to ensure that the final checkpoint is saved even when
+        save_interval does not divide num_epochs.
+    param_names : tuple(str, ...) or list(str)
+        Ordered names of tracked scalar values.
+        Must be a non-empty collection of strings.
     key_metric_idx : int, default 0
-        Index of key metric.
+        Index of the key scalar value in param_names.
+        Smaller values are considered better in the current implementation.
     score_log_file_path : str or None, default None
         File path to score log file.
     score_log_attempt_value : int, default 1
-        Number of current attempt (used for comparing training curves for various hyperparameters).
+        Index of the current attempt (used for comparing training curves for various hyperparameters).
     best_map_log_file_path : str or None, default None
-        File path to best map log file.
+        File path to the log of best key metric values.
+        Historical parameter name kept for backward compatibility.
     """
     def __init__(self,
                  checkpoint_file_name_prefix: str = "model",
                  last_checkpoint_file_name_suffix: str | None = "last",
                  best_checkpoint_file_name_suffix: str | None = None,
-                 last_checkpoint_dir_path: str = "",
+                 *,
+                 last_checkpoint_dir_path: str,
                  best_checkpoint_dir_path: str | None = None,
                  last_checkpoint_file_count: int = 2,
                  best_checkpoint_file_count: int = 2,
                  checkpoint_file_save_callback: Callable | None = None,
                  checkpoint_file_exts: tuple[str, ...] = (".params",),
                  save_interval: int = 1,
-                 num_epochs: int = -1,
-                 param_names: tuple[str, ...] | None = None,
+                 num_epochs: int,
+                 param_names: tuple[str, ...] | list[str],
                  key_metric_idx: int = 0,
                  score_log_file_path: str | None = None,
                  score_log_attempt_value: int = 1,
@@ -109,10 +115,12 @@ class TrainProcessController:
         assert (num_epochs > 0)
         self.num_epochs = num_epochs
 
-        assert isinstance(param_names, list)
-        self.param_names = param_names
+        assert isinstance(param_names, (tuple, list))
+        assert len(param_names) > 0
+        assert all(isinstance(x, str) for x in param_names)
+        self.param_names = list(param_names)
 
-        assert (key_metric_idx >= 0) and (key_metric_idx < len(param_names))
+        assert (0 <= key_metric_idx < len(param_names))
         self.key_metric_idx = key_metric_idx
 
         required_titles = ["Attempt", "Epoch"]
@@ -150,7 +158,7 @@ class TrainProcessController:
 
     def __del__(self) -> None:
         """
-        Releasing resources.
+        Release resources.
         """
         if self.score_log_file is not None:
             self.score_log_file.close()
@@ -162,7 +170,7 @@ class TrainProcessController:
                                   params: tuple[float | int, ...],
                                   **kwargs: object) -> None:
         """
-        Update state after training epoch and probably call checkpoint_file_save_callback.
+        Update the state after a training epoch and optionally call checkpoint_file_save_callback.
 
         Parameters
         ----------
@@ -180,7 +188,7 @@ class TrainProcessController:
             if (epoch1 % self.save_interval == 0) or (epoch1 == self.num_epochs):
                 last_checkpoint_params_file_stem = self._get_last_checkpoint_params_file_stem(
                     epoch=epoch1,
-                    acc=curr_key_metric_value)
+                    metric_value=curr_key_metric_value)
                 self.checkpoint_file_save_callback(last_checkpoint_params_file_stem, **kwargs)
 
                 self.last_checkpoint_params_file_stems.append(last_checkpoint_params_file_stem)
@@ -197,7 +205,7 @@ class TrainProcessController:
                 self.best_eval_metric_epoch = epoch1
                 best_checkpoint_params_file_stem = self._get_best_checkpoint_params_file_stem(
                     epoch=epoch1,
-                    acc=curr_key_metric_value)
+                    metric_value=curr_key_metric_value)
 
                 if last_checkpoint_params_file_stem is not None:
                     for ext in self.checkpoint_file_exts:
@@ -255,24 +263,24 @@ class TrainProcessController:
     @staticmethod
     def _get_checkpoint_params_file_stem(checkpoint_file_path_prefix: str,
                                          epoch: int,
-                                         acc: float) -> str:
+                                         metric_value: float) -> str:
         """
         Create checkpoint file stem path.
 
         Parameters
         ----------
         checkpoint_file_path_prefix : str
-            Directory for checkpoint saving.
+            Checkpoint file path prefix.
         epoch : int
             Epoch number.
-        acc : float
-            Accuracy value.
+        metric_value : float
+            Key metric value.
         """
-        return f"{checkpoint_file_path_prefix}_{epoch:04d}_{acc:.4f}"
+        return f"{checkpoint_file_path_prefix}_{epoch:04d}_{metric_value:.4f}"
 
     def _get_last_checkpoint_params_file_stem(self,
                                               epoch: int,
-                                              acc: float) -> str:
+                                              metric_value: float) -> str:
         """
         Create checkpoint file stem path for the last checkpoint.
 
@@ -280,14 +288,14 @@ class TrainProcessController:
         ----------
         epoch : int
             Epoch number.
-        acc : float
-            Accuracy value.
+        metric_value : float
+            Key metric value.
         """
-        return self._get_checkpoint_params_file_stem(self.last_checkpoints_prefix, epoch, acc)
+        return self._get_checkpoint_params_file_stem(self.last_checkpoints_prefix, epoch, metric_value)
 
     def _get_best_checkpoint_params_file_stem(self,
                                               epoch: int,
-                                              acc: float) -> str:
+                                              metric_value: float) -> str:
         """
         Create checkpoint file stem path for the best checkpoint.
 
@@ -295,7 +303,7 @@ class TrainProcessController:
         ----------
         epoch : int
             Epoch number.
-        acc : float
-            Accuracy value.
+        metric_value : float
+            Key metric value.
         """
-        return self._get_checkpoint_params_file_stem(self.best_checkpoints_prefix, epoch, acc)
+        return self._get_checkpoint_params_file_stem(self.best_checkpoints_prefix, epoch, metric_value)
