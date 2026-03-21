@@ -17,7 +17,7 @@ def get_platform_info() -> dict[str, str]:
     Returns
     -------
     dict(str, str)
-        Resulted info.
+        Returned information.
     """
     platform_info = {
         "system": platform.system(),
@@ -35,12 +35,12 @@ def get_platform_info() -> dict[str, str]:
 
 def get_sys_python_version() -> str:
     """
-    Get python version.
+    Get the Python version.
 
     Returns
     -------
     str
-        Resulted info.
+        Returned information.
     """
     try:
         return f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
@@ -55,12 +55,12 @@ def get_git_commit_info(script_path: str | None = None) -> str:
     Parameters
     ----------
     script_path : str or None, default None
-        Path to a script from repository.
+        Path to a script in the repository.
 
     Returns
     -------
     str
-        Resulted info.
+        Returned information.
     """
     try:
         if (script_path is not None) and script_path:
@@ -80,7 +80,7 @@ def get_git_commit_info(script_path: str | None = None) -> str:
 
 def get_package_versions(module_names: list[str]) -> dict[str, str]:
     """
-    Get packages information by inspecting __version__ attribute.
+    Get package information by inspecting the __version__ attribute.
 
     Parameters
     ----------
@@ -116,7 +116,7 @@ def get_package_versions(module_names: list[str]) -> dict[str, str]:
 def get_pip_package_descriptions(package_names: list[str],
                                  python_version: str = "") -> dict[str, str]:
     """
-    Get packages information by using 'pip show' command.
+    Get package information using the 'pip show' command.
 
     Parameters
     ----------
@@ -150,7 +150,7 @@ def get_ffmpeg_version() -> str:
     Returns
     -------
     str
-        Resulted info.
+        Returned information.
     """
     try:
         output_bytes = subprocess.check_output(["ffmpeg", "-version"])
@@ -167,7 +167,7 @@ def get_cuda_version() -> str:
     Returns
     -------
     str
-        Resulted info.
+        Returned information.
     """
     try:
         import torch
@@ -184,7 +184,7 @@ def get_cudnn_version() -> str:
     Returns
     -------
     str
-        Resulted info.
+        Returned information.
     """
     try:
         import torch
@@ -211,7 +211,7 @@ def get_env_stats(packages: list[str] | None,
     Parameters
     ----------
     packages : list(str) or None
-        list of package names to inspect only __version__.
+        List of package names whose __version__ attributes should be inspected.
     pip_packages : list(str) or None
         List of package names to inspect by 'pip show'.
     main_script_path : str or None, default None
@@ -223,8 +223,8 @@ def get_env_stats(packages: list[str] | None,
 
     Returns
     -------
-    dict(str, str)
-        Resulted string with information.
+    dict(str, str | dict(str, str))
+        Dictionary with collected environment information.
     """
     env_stat_dict = {
         "platform": get_platform_info(),

@@ -15,7 +15,7 @@ from .envs import get_env_stats
 def prepare_logger(logging_dir_path: str | None,
                    logging_file_name: str | None) -> tuple[logging.Logger, bool]:
     """
-    Prepare logger.
+    Prepare the logger.
 
     Parameters
     ----------
@@ -71,9 +71,9 @@ def initialize_logging(logging_dir_path: str | None = None,
     script_args : argparse.Namespace or None, default None
         Script arguments.
     packages : str or None, default 'log_packages'
-        Name of field on script_args for package name list to inspect only __version__.
+        Name of the field in script_args that contains the list of package names to inspect via __version__.
     pip_packages : str or None, default 'log_pip_packages'
-        Name of field on script_args for package name list to inspect by 'pip show'.
+        Name of the field in script_args that contains the list of package names to inspect via 'pip show'.
     check_ffmpeg : bool, default False
         Whether to show FFmpeg version.
     check_cuda : bool, default False

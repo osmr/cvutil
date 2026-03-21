@@ -10,19 +10,19 @@ import json
 def split_str(value: str | None,
               sep: str = ",") -> list[str] | None:
     """
-    Split string into list of strings.
+    Split a string into a list of strings.
 
     Parameters
     ----------
     value : str or None
         Processed string.
     sep : str, default ','
-        Item seperator.
+        Item separator.
 
     Returns
     -------
     list(str) or None
-        Resulted list of strings.
+        Resulting list of strings.
     """
     if value is None:
         return None
@@ -35,17 +35,17 @@ def split_str(value: str | None,
 
 def pretty_print_dict_to_str(d: dict[str, str | dict[str, str]]) -> str:
     """
-    Pretty print of dictionary d to json-formatted string.
+    Pretty-print dictionary d as a JSON-formatted string.
 
     Parameters
     ----------
-    d : dict(str, str)
+    d : dict(str, str | dict(str, str))
         Processed dictionary.
 
     Returns
     -------
     str
-        Resulted string.
+        Resulting string.
     """
     out_text = json.dumps(d, indent=4)
     return out_text

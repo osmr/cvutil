@@ -11,13 +11,13 @@ from collections.abc import Callable
 
 class TrainProcessController:
     """
-    This controller does the following things:
+    This controller provides the following functionality:
     1. Saves metrics and train parameters to a file in tabular form.
     2. Saves model checkpoints during training.
     3. Saves the best model checkpoints separately.
     4. Removes irrelevant model checkpoints.
     5. Logs the best metric values in a separate file in tabular form.
-    6. Allows you to train in several attempts, with different training parameters.
+    6. Allows multiple training runs with different training parameters.
 
     Parameters
     ----------
@@ -30,14 +30,14 @@ class TrainProcessController:
     last_checkpoint_dir_path : str, default ''
         Directory path for saving the last checkpoint files.
     best_checkpoint_dir_path : str or None, default None
-        Directory name for saving the best checkpoint files.
+        Directory path for saving the best checkpoint files.
         If None then best_checkpoint_dir_path = last_checkpoint_dir_path.
     last_checkpoint_file_count : int, default 2
-        Count of the last checkpoint files to store.
+        Number of last checkpoint files to keep.
     best_checkpoint_file_count : int, default 2
-        Count of the best checkpoint files to store.
+        Number of the best checkpoint files to keep.
     checkpoint_file_save_callback : function or None, default None
-        Callback for real saving of checkpoint file.
+        Callback that actually saves checkpoint files.
     checkpoint_file_exts : tuple(str, ...), default ('.params',)
         List of checkpoint file extensions.
     save_interval : int, default 1
@@ -167,7 +167,7 @@ class TrainProcessController:
         Parameters
         ----------
         epoch1 : int
-            Processed epoch number (started from 1).
+            Processed epoch number (starting from 1).
         params : tuple(float or int, ...)
             Values for metrics and train parameters.
         **kwargs

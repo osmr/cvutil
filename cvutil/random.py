@@ -13,16 +13,16 @@ def init_rand(seed: int,
               forced: bool = False,
               hard: bool = False) -> int:
     """
-    Initialize all random generators by seed.
+    Initialize all random generators with a seed.
 
     Parameters
     ----------
     seed : int
         Seed value.
     forced : bool, default False
-        Whether to set seed forcibly.
+        Whether to force seed initialization.
     hard : bool, default False
-        Whether to use hard way.
+        Whether to use a stricter deterministic mode.
 
     Returns
     -------

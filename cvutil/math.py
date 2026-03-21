@@ -10,7 +10,7 @@ import numpy as np
 def calc_pad_value(src_value: int,
                    dst_value: int) -> tuple[int, int]:
     """
-    Calculate a padding values for a pair of source and destination numbers.
+    Calculate left and right padding values for the source and destination sizes.
 
     Parameters
     ----------
@@ -48,13 +48,14 @@ def encode_vectors_via_pca(vectors: np.ndarray,
     Parameters
     ----------
     vectors : np.ndarray
-        Input float vector. It's a matrix (n, m), where n is vector count, m is vector length.
+        Input floating-point vectors. This is an (n, m) matrix,
+        where n is the number of vectors and m is the vector length.
     pca_params : dict[str, np.ndarray]
         PCA params.
     calc_whitening : bool, default False
         Whether to encode with whitening.
     return_both : bool, default False
-        Whether to return both encoded vectors (without whitening and with).
+        Whether to return both encoded representations (with and without whitening).
 
     Returns
     -------
@@ -82,7 +83,8 @@ def decode_vectors_via_pca(vectors: np.ndarray,
     Parameters
     ----------
     vectors : np.ndarray
-        Input float vector. It's a matrix (n, m), where n is vector count, m is vector length.
+        Input floating-point vectors. This is an (n, m) matrix,
+        where n is the number of vectors and m is the vector length.
     pca_params : dict[str, np.ndarray]
         PCA params.
     used_whitening : bool, default False

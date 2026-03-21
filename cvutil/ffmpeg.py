@@ -1,5 +1,5 @@
 """
-    Video/audio processing via FFMPEG auxiliary functions.
+    Auxiliary functions for video/audio processing via FFmpeg.
 """
 
 __all__ = ['extract_frames_from_video', 'extract_audio_from_video', 'merge_video_with_audio']
@@ -47,7 +47,7 @@ def extract_frames_from_video(input_video_file_path: str,
     fps : float, default 60
         Video FPS (for all frame extraction only).
     all_frames : bool, default False
-        Whether to extract all frames from video steam without dropping and dubbing.
+        Whether to extract all frames from the video stream without dropping or duplicating frames.
     show_ffmpeg_output : bool, default False
         Whether to show FFMPEG output.
     """
@@ -68,7 +68,7 @@ def extract_audio_from_video(input_video_file_path: str,
                              ffmpeg_params: str = "-vn -c:a copy",
                              show_ffmpeg_output: bool = False) -> None:
     """
-    Real extract an audio stream from a video file.
+    Extract an audio stream from a video file.
 
     Parameters
     ----------
@@ -77,7 +77,7 @@ def extract_audio_from_video(input_video_file_path: str,
     output_audio_file_path : str
         Output audio file path.
     ffmpeg_params : str, default '-vn -c:a copy'
-        Encoder ffmpeg params.
+        FFmpeg encoder parameters.
     show_ffmpeg_output : bool, default False
         Whether to show FFMPEG output.
     """
@@ -106,7 +106,7 @@ def merge_video_with_audio(input_video_file_path: str,
     output_video_file_path : str
         Path to an output video file.
     ffmpeg_params : str, default '-c:v copy -c:a aac'
-        Muxing FFMPEG params.
+        FFmpeg muxing parameters.
     show_ffmpeg_output : bool, default False
         Whether to show FFMPEG output.
     """

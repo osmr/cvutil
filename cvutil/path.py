@@ -58,7 +58,7 @@ def get_file_paths_in_dir(dir_path: str,
                           return_dict: bool,
                           force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all specific file paths in directory.
+    Get all specific file paths in a directory.
 
     Parameters
     ----------
@@ -127,7 +127,7 @@ def get_video_file_paths(dir_path: str,
                          return_dict: bool = False,
                          force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all video file paths in directory.
+    Get all video file paths in a directory.
 
     Parameters
     ----------
@@ -161,7 +161,7 @@ def get_image_file_paths(dir_path: str,
                          return_dict: bool = False,
                          force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all image file paths in directory.
+    Get all image file paths in a directory.
 
     Parameters
     ----------
@@ -195,7 +195,7 @@ def get_audio_file_paths(dir_path: str,
                          return_dict: bool = False,
                          force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all audio file paths in directory.
+    Get all audio file paths in a directory.
 
     Parameters
     ----------
@@ -229,7 +229,7 @@ def get_json_file_paths(dir_path: str,
                         return_dict: bool = False,
                         force_complex_ext: bool = False) -> list[str] | dict[str, list[str]]:
     """
-    Get all JSON file paths in directory.
+    Get all JSON file paths in a directory.
 
     Parameters
     ----------
@@ -247,7 +247,7 @@ def get_json_file_paths(dir_path: str,
     Returns
     -------
     list(str) or dict(str, str)
-        Audio file paths.
+        JSON file paths.
     """
     return get_file_paths_in_dir(
         dir_path=dir_path,
@@ -277,7 +277,7 @@ def gen_output_file_path(input_file_path: str,
     output_file_suf : str, default ''
         Output file extra suffix with leading symbol like `_`.
     input_file_suf_len : int, default 0
-        Removed input file suffix length (suffix with leading symbol like `_`).
+        Length of the suffix to remove from the input file name (suffix with leading symbol like `_`).
     is_output_dir : bool, default False
         Whether to generate directory path.
 
@@ -315,7 +315,7 @@ def gen_output_dir_path(input_file_path: str,
     output_dir_suf : str
         Output directory extra suffix with leading symbol like `_`.
     input_file_suf_len : int, default 0
-        Removed input file suffix length (suffix with leading symbol like `_`).
+        Length of the suffix to remove from the input file name (suffix with leading symbol like `_`).
 
     Returns
     -------
@@ -379,7 +379,8 @@ def gen_output_file_path_with_rewrite(input_file_path: str,
                                       rewrite: bool = False,
                                       show_message: bool = True) -> tuple[str, bool]:
     """
-    Generate output file/directory path based on input file path. And check file/directory for non-existence.
+    Generate output file/directory path based on input file path.
+    Also check whether the file or directory already exists.
 
     Parameters
     ----------
@@ -392,7 +393,7 @@ def gen_output_file_path_with_rewrite(input_file_path: str,
     output_file_suf : str, default ''
         Output file extra suffix with leading symbol like `_`.
     input_file_suf_len : int, default 0
-        Removed input file suffix length (suffix with leading symbol like `_`).
+        Length of the suffix to remove from the input file name (suffix with leading symbol like `_`).
     is_output_dir : bool, default False
         Whether to generate directory path.
     rewrite : bool, default False
@@ -429,7 +430,7 @@ def gen_output_dir_path_with_rewrite(input_file_path: str,
                                      rewrite: bool = False,
                                      show_message: bool = True) -> tuple[str, bool]:
     """
-    Generate output directory path based on input file path. And check directory for non-existence.
+    Generate output directory path based on input file path. Also check whether the directory already exists.
 
     Parameters
     ----------
@@ -440,7 +441,7 @@ def gen_output_dir_path_with_rewrite(input_file_path: str,
     output_dir_suf : str
         Output directory extra suffix with leading symbol like `_`.
     input_file_suf_len : int, default 0
-        Removed input file suffix length (suffix with leading symbol like `_`).
+        Length of the suffix to remove from the input file name (suffix with leading symbol like `_`).
     rewrite : bool, default False
         Should we rewrite existing file/directory.
     show_message : bool

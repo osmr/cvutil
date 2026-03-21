@@ -13,7 +13,7 @@ def resize_image(image: np.ndarray,
                  image_size: tuple[int, int],
                  interpolation: int = cv2.INTER_LINEAR) -> np.ndarray:
     """
-    Resize image.
+    Resize an image.
 
     Parameters
     ----------
@@ -42,7 +42,7 @@ def resize_image_with_min_size(image: np.ndarray,
                                downscale: bool = False,
                                interpolation: int = cv2.INTER_LINEAR) -> tuple[np.ndarray, tuple[int, int]]:
     """
-    Resize image with minimal size.
+    Resize an image so that its smaller side equals min_size.
 
     Parameters
     ----------
@@ -78,7 +78,7 @@ def crop_image(image: np.ndarray,
     Parameters
     ----------
     image : np.ndarray
-        Cropping image.
+        Input image to crop.
     crop_params : tuple(int, int, int, int)
         Cropping parameters (see code).
 
@@ -95,7 +95,7 @@ def crop_image(image: np.ndarray,
 def center_crop_image(image: np.ndarray,
                       dst_image_size: tuple[int, int]) -> np.ndarray:
     """
-    Crop image patch from the center so that sides are equal to pads.
+    Crop a centered image patch of the desired size.
 
     Parameters
     ----------
